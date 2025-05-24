@@ -11,10 +11,11 @@ export const KEY = {
   DOWN: 'ArrowDown',
   UP: 'ArrowUp',
   SPACE: ' ',
-  P: 'p'
-};
+  P: 'p',
+  ESC: 'Escape'
+} as const;
 
-export const COLORS = [
+export const COLORS: string[] = [
   'cyan',
   'blue',
   'orange',
@@ -32,7 +33,7 @@ export const SHAPES = [
   [[0, 1, 1], [1, 1, 0], [0, 0, 0]], // S
   [[0, 1, 0], [1, 1, 1], [0, 0, 0]], // T
   [[1, 1, 0], [0, 1, 1], [0, 0, 0]]  // Z
-];
+] as const;
 
 export const POINTS = {
   SINGLE: 100,
@@ -41,9 +42,9 @@ export const POINTS = {
   TETRIS: 800,
   SOFT_DROP: 1,
   HARD_DROP: 2
-};
+} as const;
 
-export const LEVEL = {
+export const LEVEL: { [key: number]: number } = {
   0: 800,
   1: 720,
   2: 630,
@@ -65,6 +66,23 @@ export const LEVEL = {
   18: 50,
   19: 30,
   20: 30,
-  // 1ms for next levels
-  ...Object.fromEntries(Array(180).fill().map((_, i) => [i + 21, Math.max(100 - i, 10)]))
+  // 21+ : 20ms (as fast as possible)
+  21: 20
 };
+
+// Sound configuration
+export const SOUNDS = {
+  move: { path: '/sounds/move.ogg', volume: 0.5 },
+  rotate: { path: '/sounds/rotate.ogg', volume: 0.5 },
+  drop: { path: '/sounds/drop.ogg', volume: 0.5 },
+  clear: { path: '/sounds/clear.ogg', volume: 0.7 },
+  gameOver: { path: '/sounds/gameover.ogg', volume: 0.8 },
+  levelUp: { path: '/sounds/levelup.ogg', volume: 0.8 },
+  background: { path: '/sounds/background.mp3', volume: 0.3, loop: true }
+} as const;
+
+// Type exports
+export type KeyType = keyof typeof KEY;
+export type KeyValue = typeof KEY[KeyType];
+export type PointsType = keyof typeof POINTS;
+export type SoundType = keyof typeof SOUNDS;
